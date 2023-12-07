@@ -23,7 +23,7 @@ To run this project follow the steps:
 
 1. Clone the Directory
 ```bash
-  git clone https://github.com/JATINJANGID17/house-price-prediction.git
+  git clone [https://github.com/JACKJATIN/Real-Estate-Price-Prediction.git]
 ```
 2. Navigate to the project directory
 ```bash
