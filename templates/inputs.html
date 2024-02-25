@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>House Price Prediction</title>
+    <style>
+      body {
+        font-family: "Arial", sans-serif;
+      }
+      .button-container {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 15px;
+}
+
+.back-container,
+.submit-container {
+    width: 48%;
+}
+
+.back-container input[type="submit"],
+.submit-container input[type="submit"] {
+    width: 100%;
+    height: 40px; /* Set equal height for both buttons */
+    margin: 0; /* Remove any margins */
+    padding: 0; /* Remove any padding */
+}
+      main {
+        position:relative;
+        text-align: center;
+        margin: 0;
+        height: 100vh; /* Set body height to fill viewport */
+        background-color: rgba(
+          240,
+          240,
+          240,
+          1
+        ); /* Background color with 70% transparency */
+        background-image: url("/static/bg4.gif"); /* Dynamic background image */
+        background-size: cover; /* Cover the entire viewport */
+        background-position: center; /* Center the background */
+        background-repeat: no-repeat; /* Do not repeat the background image */
+      }
+  
+      #maintext {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-top: 20px; /* Adjust margin as needed */
+      }
+  
+      #maintext div {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: fit-content;
+        border-radius: 16px;
+        background: #C5FFF8;
+        padding: 8px 16px;
+        font-size: 24px; /* Adjust font size */
+        font-weight: bold; /* Bold */
+      }
+  
+      #bar {
+        position: absolute;
+        bottom: 2%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 16px;
+        background: #C5FFF8;
+        padding: 8px 16px;
+        font-size: 30px; /* Adjust font size */
+        font-weight: bold; /* Bold */
+      }
+  
+      h1 {
+        color: #333;
+        font-size: 3.5em; /* 1.5 times bigger */
+        font-weight: bold; /* Bold */
+        margin-top: 40px; /* Adjust the margin for top center alignment */
+      }
+  
+      form {
+        margin: 24px;
+        background-color: rgba(
+          255,
+          255,
+          255,
+          0
+        ); /* Form background color with 80% transparency */
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+  
+      #formItems {
+        width: 100%;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        box-sizing: border-box;
+      }
+  
+      #formItems div {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+  
+      label {
+        margin-bottom: 5px;
+        color: #333;
+        font-weight: bold; /* Bold */
+        width: 100%;
+        text-align: center;
+        white-space: nowrap; /* Prevent line break */
+        display: inline-block; /* Fix overlapping issue */
+      }
+  
+      input[type="number"],
+      select {
+        flex: 1;
+        margin-top: 5px;
+        padding: 10px;
+        box-sizing: border-box;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        font-size: 16px;
+        color: black; /* Black text color */
+        width: 100%; /* Make input fields fill their container */
+      }
+  
+      input[type="checkbox"] {
+        margin-top: 5px;
+        box-sizing: border-box;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        font-size: 18px; /* Increase checkbox size */
+        color: black; /* Black text color */
+        width: 30px;
+        height: 30px;
+        padding: 15px; /* Increase padding for checkboxes */
+        cursor: pointer;
+      }
+  
+      .submit-container {
+        width: 100%;
+        text-align: center;
+        margin-top: 15px;
+      }
+  
+      input[type="submit"] {
+        background-color: #4caf50;
+        color: #fff;
+        cursor: pointer;
+        font-size: 18px;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+      }
+  
+      input[type="submit"]:hover {
+        background: #45FFCA;
+      }
+  
+      #locationContainer {
+        margin-top: 20px;
+      }
+  
+      #locationBox {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+  
+      #location {
+        max-width: 30%;
+      }
+      a {
+        margin-top: 20px;
+        padding: 10px 20px;
+        background-color: #7B66FF;
+        color: #fff;
+        border-radius: 8px;
+        text-decoration: none;
+        transition: background-color 0.3s ease;
+    }
+
+    a:hover {
+        background-color: #6a5acd;
+    }
+
+    </style>
+    <script>
+      function updateCheckboxValue(checkbox, hiddenInput) {
+        hiddenInput.value = checkbox.checked ? 1 : 0;
+      }
+  
+      setTimeout(function () {
+        document.getElementById("form").scrollIntoView({ behavior: "smooth" });
+      }, 1500);
+    </script>
+  </head>
+  <body>
+    <main>
+        <h1>House Price Prediction</h1>
+        <div id="maintext"><div>One Stop Solution To Get Right Price</div></div>
+        <div id="bar">Lets Estimate Price Of Your Dream Home</div>
+    </main>
+    <form id="form" method="post" action="/predict">
+      <!-- Numeric Input Fields -->
+      <div id="formItems">
+        <div>
+          <label for="Area">Area:</label>
+          <input type="number" id="area" name="area" required />
+        </div>
+
+        <div>
+          <label for="No. of Bedrooms">No. of Bedrooms:</label>
+          <input type="number" id="bedrooms" name="bedrooms" required />
+        </div>
+
+        <div>
+          <label for="resale">Resale:</label>
+          <input
+            type="checkbox"
+            id="resale"
+            name="Resale"
+            value="1"
+            onclick="updateCheckboxValue(this, resale)"
+          />
+          <input type="hidden" name="Resale" id="resale" value="0" />
+        </div>
+
+        <div>
+          <label for="maintenance">Maintenance Staff:</label>
+          <input
+            type="checkbox"
+            id="maintenance"
+            name="maintenance"
+            value="1"
+            onclick="updateCheckboxValue(this, maintenance)"
+          />
+          <input type="hidden" name="maintenance" id="maintenance" value="0" />
+        </div>
+
+        <div>
+          <label for="gymnasium">Gymnasium:</label>
+          <input
+            type="checkbox"
+            id="gymnasium"
+            name="gymnasium"
+            value="1"
+            onclick="updateCheckboxValue(this, gymnasium)"
+          />
+          <input type="hidden" name="gymnasium" id="gymnasium" value="0" />
+        </div>
+
+        <div>
+          <label for="swimmingPool">Swimming Pool:</label>
+          <input
+            type="checkbox"
+            id="swimmingPool"
+            name="SwimmingPool"
+            value="1"
+            onclick="updateCheckboxValue(this, swimmingPool)"
+          />
+          <input
+            type="hidden"
+            name="SwimmingPool"
+            id="swimmingPool"
+            value="0"
+          />
+        </div>
+
+        <div>
+          <label for="landscapedGardens">Landscaped Gardens:</label>
+          <input
+            type="checkbox"
+            id="landscapedGardens"
+            name="LandscapedGardens"
+            value="1"
+            onclick="updateCheckboxValue(this, landscapedGardens)"
+          />
+          <input
+            type="hidden"
+            name="LandscapedGardens"
+            id="landscapedGardens"
+            value="0"
+          />
+        </div>
+
+        <div>
+          <label for="joggingTrack">Jogging Track:</label>
+          <input
+            type="checkbox"
+            id="joggingTrack"
+            name="jogging_track"
+            value="1"
+            onclick="updateCheckboxValue(this, joggingTrack)"
+          />
+          <input
+            type="hidden"
+            name="jogging_track"
+            id="joggingTrack"
+            value="0"
+          />
+        </div>
+
+        <div>
+          <label for="rainwaterHarvesting">Rainwater Harvesting:</label>
+          <input
+            type="checkbox"
+            id="rainwaterHarvesting"
+            name="rainwater_harvesting"
+            value="1"
+            onclick="updateCheckboxValue(this, rainwaterHarvesting)"
+          />
+          <input
+            type="hidden"
+            name="rainwater_harvesting"
+            id="rainwaterHarvesting"
+            value="0"
+          />
+        </div>
+
+        <div>
+          <label for="indoorGames">Indoor Games:</label>
+          <input
+            type="checkbox"
+            id="indoorGames"
+            name="indoor_games"
+            value="1"
+            onclick="updateCheckboxValue(this, indoorGames)"
+          />
+          <input type="hidden" name="indoor_games" id="indoorGames" value="0" />
+        </div>
+
+        <div>
+          <label for="shoppingMall">Shopping Mall:</label>
+          <input
+            type="checkbox"
+            id="shoppingMall"
+            name="shopping_mall"
+            value="1"
+            onclick="updateCheckboxValue(this, shoppingMall)"
+          />
+          <input
+            type="hidden"
+            name="shopping_mall"
+            id="shoppingMall"
+            value="0"
+          />
+        </div>
+
+        <div>
+          <label for="intercom">Intercom:</label>
+          <input
+            type="checkbox"
+            id="intercom"
+            name="intercom"
+            value="1"
+            onclick="updateCheckboxValue(this, intercom)"
+          />
+          <input type="hidden" name="intercom" id="intercom" value="0" />
+        </div>
+
+        <div>
+          <label for="sportsFacility">Sports Facility:</label>
+          <input
+            type="checkbox"
+            id="sportsFacility"
+            name="sports_facility"
+            value="1"
+            onclick="updateCheckboxValue(this, sportsFacility)"
+          />
+          <input
+            type="hidden"
+            name="sports_facility"
+            id="sportsFacility"
+            value="0"
+          />
+        </div>
+
+        <div>
+          <label for="atm">ATM:</label>
+          <input
+            type="checkbox"
+            id="atm"
+            name="atm"
+            value="1"
+            onclick="updateCheckboxValue(this, atm)"
+          />
+          <input type="hidden" name="atm" id="atm" value="0" />
+        </div>
+
+        <div>
+          <label for="clubHouse">Club House:</label>
+          <input
+            type="checkbox"
+            id="clubHouse"
+            name="club_house"
+            value="1"
+            onclick="updateCheckboxValue(this, clubHouse)"
+          />
+          <input type="hidden" name="club_house" id="clubHouse" value="0" />
+        </div>
+
+        <div>
+          <label for="school">School:</label>
+          <input
+            type="checkbox"
+            id="school"
+            name="school"
+            value="1"
+            onclick="updateCheckboxValue(this, school)"
+          />
+          <input type="hidden" name="school" id="school" value="0" />
+        </div>
+
+        <div>
+          <label for="security">24X7 Security:</label>
+          <input
+            type="checkbox"
+            id="security"
+            name="security"
+            value="1"
+            onclick="updateCheckboxValue(this, security)"
+          />
+          <input type="hidden" name="security" id="security" value="0" />
+        </div>
+
+        <div>
+          <label for="powerBackup">Power Backup:</label>
+          <input
+            type="checkbox"
+            id="powerBackup"
+            name="power_backup"
+            value="1"
+            onclick="updateCheckboxValue(this, powerBackup)"
+          />
+          <input type="hidden" name="power_backup" id="powerBackup" value="0" />
+        </div>
+
+        <div>
+          <label for="carParking">Car Parking:</label>
+          <input
+            type="checkbox"
+            id="carParking"
+            name="car_parking"
+            value="1"
+            onclick="updateCheckboxValue(this, carParking)"
+          />
+          <input type="hidden" name="car_parking" id="carParking" value="0" />
+        </div>
+
+        <div>
+          <label for="staffQuarter">Staff Quarter:</label>
+          <input
+            type="checkbox"
+            id="staffQuarter"
+            name="staff_quarter"
+            value="1"
+            onclick="updateCheckboxValue(this, staffQuarter)"
+          />
+          <input
+            type="hidden"
+            name="staff_quarter"
+            id="staffQuarter"
+            value="0"
+          />
+        </div>
+
+        <div>
+          <label for="cafeteria">Cafeteria:</label>
+          <input
+            type="checkbox"
+            id="cafeteria"
+            name="cafeteria"
+            value="1"
+            onclick="updateCheckboxValue(this, cafeteria)"
+          />
+          <input type="hidden" name="cafeteria" id="cafeteria" value="0" />
+        </div>
+
+        <div>
+          <label for="multipurposeRoom">Multipurpose Room:</label>
+          <input
+            type="checkbox"
+            id="multipurposeRoom"
+            name="multipurpose_room"
+            value="1"
+            onclick="updateCheckboxValue(this, multipurposeRoom)"
+          />
+          <input
+            type="hidden"
+            name="multipurpose_room"
+            id="multipurposeRoom"
+            value="0"
+          />
+        </div>
+
+        <div>
+          <label for="hospital">Hospital:</label>
+          <input
+            type="checkbox"
+            id="hospital"
+            name="hospital"
+            value="1"
+            onclick="updateCheckboxValue(this, hospital)"
+          />
+          <input type="hidden" name="hospital" id="hospital" value="0" />
+        </div>
+
+        <div>
+          <label for="washingMachine">Washing Machine:</label>
+          <input
+            type="checkbox"
+            id="washingMachine"
+            name="washing_machine"
+            value="1"
+            onclick="updateCheckboxValue(this, washingMachine)"
+          />
+          <input
+            type="hidden"
+            name="washing_machine"
+            id="washingMachine"
+            value="0"
+          />
+        </div>
+
+        <div>
+          <label for="gasConnection">Gas Connection:</label>
+          <input
+            type="checkbox"
+            id="gasConnection"
+            name="gas_connection"
+            value="1"
+            onclick="updateCheckboxValue(this, gasConnection)"
+          />
+          <input
+            type="hidden"
+            name="gas_connection"
+            id="gasConnection"
+            value="0"
+          />
+        </div>
+
+        <div>
+          <label for="ac">AC:</label>
+          <input
+            type="checkbox"
+            id="ac"
+            name="ac"
+            value="1"
+            onclick="updateCheckboxValue(this, ac)"
+          />
+          <input type="hidden" name="ac" id="ac" value="0" />
+        </div>
+
+        <div>
+          <label for="wifi">Wifi:</label>
+          <input
+            type="checkbox"
+            id="wifi"
+            name="wifi"
+            value="1"
+            onclick="updateCheckboxValue(this, wifi)"
+          />
+          <input type="hidden" name="wifi" id="wifi" value="0" />
+        </div>
+
+        <div>
+          <label for="playArea">Children's Play Area:</label>
+          <input
+            type="checkbox"
+            id="playArea"
+            name="play_area"
+            value="1"
+            onclick="updateCheckboxValue(this, playArea)"
+          />
+          <input type="hidden" name="play_area" id="playArea" value="0" />
+        </div>
+
+        <div>
+          <label for="liftAvailable">Lift Available:</label>
+          <input
+            type="checkbox"
+            id="lift_available"
+            name="lift_available"
+            value="1"
+            onclick="updateCheckboxValue(this, lift_available)"
+          />
+          <input type="hidden" name="lift_available" id="playArea" value="0" />
+        </div>
+
+        <div>
+          <label for="bed">BED:</label>
+          <input
+            type="checkbox"
+            id="bed"
+            name="bed"
+            value="1"
+            onclick="updateCheckboxValue(this, bed)"
+          />
+          <input type="hidden" name="value" id="bed" value="0" />
+        </div>
+
+        <div>
+          <label for="vaastuCompliant">Vaastu Compliant:</label>
+          <input
+            type="checkbox"
+            id="vaastuCompliant"
+            name="vaastu_compliant"
+            value="1"
+            onclick="updateCheckboxValue(this, vaastuCompliant)"
+          />
+          <input
+            type="hidden"
+            name="vaastu_compliant"
+            id="vaastuCompliant"
+            value="0"
+          />
+        </div>
+
+        <div>
+          <label for="microwave">Microwave:</label>
+          <input
+            type="checkbox"
+            id="microwave"
+            name="microwave"
+            value="1"
+            onclick="updateCheckboxValue(this, microwave)"
+          />
+          <input type="hidden" name="microwave" id="microwave" value="0" />
+        </div>
+
+        <div>
+          <label for="golfCourse">Golf Course:</label>
+          <input
+            type="checkbox"
+            id="golfCourse"
+            name="golf_course"
+            value="1"
+            onclick="updateCheckboxValue(this, golfCourse)"
+          />
+          <input type="hidden" name="golf_course" id="golfCourse" value="0" />
+        </div>
+
+        <div>
+          <label for="tv">TV:</label>
+          <input
+            type="checkbox"
+            id="tv"
+            name="tv"
+            value="1"
+            onclick="updateCheckboxValue(this, tv)"
+          />
+          <input type="hidden" name="tv" id="tv" value="0" />
+        </div>
+
+        <div>
+          <label for="diningTable">Dining Table:</label>
+          <input
+            type="checkbox"
+            id="diningTable"
+            name="dining_table"
+            value="1"
+            onclick="updateCheckboxValue(this, diningTable)"
+          />
+          <input type="hidden" name="dining_table" id="diningTable" value="0" />
+        </div>
+
+        <div>
+          <label for="sofa">Sofa:</label>
+          <input
+            type="checkbox"
+            id="sofa"
+            name="sofa"
+            value="1"
+            onclick="updateCheckboxValue(this, sofa)"
+          />
+          <input type="hidden" name="sofa" id="sofa" value="0" />
+        </div>
+
+        <div>
+          <label for="wardrobe">Wardrobe:</label>
+          <input
+            type="checkbox"
+            id="wardrobe"
+            name="wardrobe"
+            value="1"
+            onclick="updateCheckboxValue(this, wardrobe)"
+          />
+          <input type="hidden" name="wardrobe" id="wardrobe" value="0" />
+        </div>
+
+        <div>
+          <label for="refrigerator">Refrigerator:</label>
+          <input
+            type="checkbox"
+            id="refrigerator"
+            name="refrigerator"
+            value="1"
+            onclick="updateCheckboxValue(this, refrigerator)"
+          />
+          <input
+            type="hidden"
+            name="refrigerator"
+            id="refrigerator"
+            value="0"
+          />
+        </div>
+      </div>
+      <div id="locationContainer">
+        <label for="location">Location:</label>
+        <div id="locationBox">
+          <select id="location" name="location" required>
+            {% for loc in locations %}
+            <option value="{{ loc }}">{{ loc }}</option>
+            {% endfor %}
+          </select>
+        </div>
+      </div>
+      <!-- Submit Button -->
+      <div class="button-container" style="display: flex; align-items: center;">
+        <div class="back-container">
+            <a href="{{ url_for('home') }}">Home</a>
+        </div>
+        <div class="submit-container" style="margin-left: 10px;">
+            <input type="submit" value="Predict" />
+        </div>
+    </div>
+    
+    
+    
+    </form>
+  </body>
+</html>

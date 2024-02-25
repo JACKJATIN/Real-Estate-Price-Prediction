@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>House Price Prediction Result</title>
+    <style>
+        body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    background-color: #f9f9f9;
+    color: #333;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-image: url('{{ url_for('static', filename='bg.jpg') }}'); /* Replace 'path/to/your/image.jpg' with the actual path to your image */
+    background-size: cover;
+    background-position: center;
+}
+
+h1, h2 {
+    font-family: 'Arial', sans-serif;
+    font-size: 2.5rem; /* Adjust the font size as needed */
+    color: transparent; /* Set text color to transparent */
+    margin-top: 50px; /* Adjust the top margin to your preference */
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.8); /* Add a white glow effect */
+    animation: glow 2s ease-in-out infinite alternate; /* Apply animation */
+}
+
+@keyframes glow {
+    from {
+        text-shadow: 0 0 10px rgba(255, 255, 255, 0.8); /* Start with a glow effect */
+    }
+    to {
+        text-shadow: 0 0 20px rgba(255, 255, 255, 1); /* Increase glow intensity */
+    }
+}
+
+h1, h2 {
+    color: #fff; /* Set text color to white */
+}
+
+.prediction-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    margin-top: 50px;
+}
+
+.prediction-box {
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    width: calc(25% - 20px); /* Adjusted to be 20% smaller */
+    max-width: 300px;
+    margin: 10px; /* Added margin to create spacing between boxes */
+    text-align: center;
+}
+
+.average-prediction-box {
+    background-color: #4caf50;
+    color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 300px;
+    text-align: center;
+    margin-top: 20px;
+}
+
+a {
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #7B66FF;
+    color: #fff;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+}
+
+a:hover {
+    background-color: #6a5acd;
+}
+
+/* Styling for hover effect on prediction boxes */
+.prediction-box:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+/* Styling for prediction box titles */
+.prediction-box h2 {
+    margin-bottom: 15px;
+    font-size: 1.5rem;
+    color: #4caf50;
+}
+
+/* Styling for predicted price */
+.prediction-box p {
+    font-size: 1.2rem;
+    color: #555;
+}
+
+/* Styling for ensemble prediction box title */
+.average-prediction-box h2 {
+    margin-bottom: 15px;
+    font-size: 1.5rem;
+}
+
+/* Styling for ensemble predicted price */
+.average-prediction-box p {
+    font-size: 1.2rem;
+}
+
+</style>
+</head>
+<body>
+    <h1>House Price Prediction Result</h1>
+
+    <div class="prediction-container">
+
+        <div class="prediction-box">
+            <h2>Decision Tree</h2>
+            <p>Predicted Price: ₹{{ predictions['Decision Tree'] }}</p>
+        </div>
+
+        <div class="prediction-box">
+            <h2>Random Forest</h2>
+            <p>Predicted Price: ₹{{ predictions['Random Forest'] }}</p>
+        </div>
+
+        <div class="prediction-box">
+            <h2>CatBoost</h2>
+            <p>Predicted Price: ₹{{ predictions['CatBoost'] }}</p>
+        </div>
+
+        <div class="prediction-box">
+            <h2>K Nearest Neighbor</h2>
+            <p>Predicted Price: ₹{{ predictions['KNN'] }}</p>
+        </div>
+
+        <div class="prediction-box">
+            <h2>Huber Regressor</h2>
+            <p>Predicted Price: ₹{{ predictions['Huber Regressor'] }}</p>
+        </div>
+
+    </div>
+
+    <div class="average-prediction-box">
+        <h2>Ensemble Predicted Price</h2>
+        <p>₹ {{ avg_predicted_price }}</p>
+    </div>
+    <a href="{{ url_for('inputs') }}">Back</a>
+    <a href="{{ url_for('home') }}">Home</a>
+</body>
+</html>

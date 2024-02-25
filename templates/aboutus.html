@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us</title>
+    <style>
+        body {
+            font-family: Georgia, serif; /* Change font to Georgia */
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+            color: #333;
+            background-image: url("{{ team_members['bg-image'] }}");
+            background-size: cover;
+            background-position: center;
+            font-weight: bold; /* Make all text bold */
+            font-size: 16px; /* Increase font size */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 800px;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            animation: fade-in 1s ease-in-out;
+            text-align: center; /* Center-align text within the container */
+            background-color: rgba(255, 255, 255, 0.8); /* Translucent white */
+        }
+        @keyframes fade-in {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+        h1, h2, h3 {
+            color: #007bff;
+            font-size: 24px; /* Increase heading font size */
+        }
+        h2 {
+            margin-top: 40px;
+        }
+        h3 {
+            margin-top: 20px;
+        }
+        p {
+            margin-bottom: 20px;
+        }
+        .team-member {
+            display: flex;
+            justify-content: space-between; /* Align items evenly */
+            align-items: center;
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 20px;
+            margin-bottom: 20px;
+            transition: transform 0.3s ease-in-out;
+            width: 100%; /* Make the inner container full width */
+        }
+        .team-member:hover {
+            transform: translateY(-5px);
+        }
+        .team-member:last-child {
+            border-bottom: none;
+        }
+        .team-member h3 {
+            color: #333;
+            margin-left: 20px;
+            transition: color 0.3s ease-in-out;
+        }
+        .team-member p {
+            color: #666;
+            margin-left: 20px;
+            flex: 1; /* Allow the description to take up remaining space */
+        }
+        .team-member img {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 20px;
+            transition: transform 0.3s ease-in-out;
+        }
+        .team-member:hover img {
+            transform: scale(1.1);
+        }
+        .email-button {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 20px;
+            padding: 8px 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease-in-out;
+        }
+        .email-button:hover {
+            background-color: #0056b3;
+        }
+        .description {
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .description h4 {
+            color: #007bff;
+            font-weight: bold;
+        }
+
+        .description p {
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .contact-info {
+            margin-top: 40px;
+        }
+
+        .contact-info b {
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .home-button,
+        .inputs-button {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 20px;
+            padding: 10px 20px;
+            margin: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s ease-in-out, transform 0.3s ease-in-out;
+        }
+
+        .home-button:hover,
+        .inputs-button:hover {
+            background-color: #0056b3;
+            transform: scale(1.05); /* Zoom effect on hover */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>About Us</h1>
+        <center>
+            <p><b>Welcome to our real estate price prediction project!</b></p>
+        </center>
+        <h2>Meet the Team</h2>
+        
+        <!-- Loop through the team members and display their information -->
+        {% for name, data in team_members.items() %}
+    {% if name != 'bg-image' %}
+        <div class="team-member">
+            <div>
+                <img src="{{ data['image_url'] }}" alt="{{ name }}">
+            </div>
+            <div>
+                <h3>{{ name }}</h3>
+                {% if name == 'Jatin Jangid' %}
+                    <p>Jatin is proficient in Python and backend development. He specializes in building robust server-side applications and handling database operations efficiently.</p>
+                {% elif name == 'Shreyansh Tiwari' %}
+                    <p>Shreyansh is knowledgeable in Flask and Django server frameworks. He excels in setting up server-side environments, managing routes, and integrating various functionalities into web applications.</p>
+                {% elif name == 'Rishabh Jain' %}
+                    <p>Rishabh is experienced in testing machine learning models. He possesses the skills to evaluate model performance, conduct A/B testing, and ensure the reliability and accuracy of predictive algorithms.</p>
+                {% elif name == 'Chandra Pratap' %}
+                    <p>Chandra Pratap is skilled in frontend development. He has expertise in crafting captivating user interfaces and implementing responsive designs to ensure an optimal user experience.</p>
+                {% endif %}
+            </div>
+            <button class="email-button" onclick="location.href='mailto:{{ data['email'] }}';">Email</button>
+        </div>
+    {% endif %}
+{% endfor %}
+<div class="description">
+    <h4>Research and Prototyping:</h4>
+    <p>Our team collaborates on in-depth research and prototyping, ensuring that our solutions are based on the latest industry trends and cutting-edge technologies. Through extensive experimentation and innovation, we strive to deliver effective and efficient solutions that meet the needs of our users.</p>
+    
+    <h4>Debugging and Optimization:</h4>
+    <p>We emphasize thorough debugging and optimization processes to enhance the performance and reliability of our projects. By meticulously identifying and resolving issues, we ensure that our applications are robust, stable, and capable of delivering a seamless user experience.</p>
+</div>
+
+
+        
+        <!-- Contact Information -->
+        <div class="contact-info">
+            <h2>Contact Us</h2>
+            <b>If you have any questions or feedback about our project, please feel free to reach out to us:</b>
+        </div>
+        <div>
+            <button class="home-button" onclick="location.href='{{ url_for('home') }}'">Home</button>
+            <button class="inputs-button" onclick="location.href='{{ url_for('inputs') }}'">Lets Try Our Estimator</button>
+        </div>
+               
+</body>
+</html>
