@@ -1,25 +1,23 @@
 
-# Project Title
+Real Estate Price Prediction
 
-A brief description of what this project does and who it's for
+This project is a web application designed to predict house prices based on various features. It caters to individuals looking to estimate house prices within India, providing them with a user-friendly interface to input property details and obtain accurate price predictions.
+Features
 
-This project is a web application for predicting house prices based on various features. Users can input details such as area, number of bedrooms, and amenities, and the application will provide an estimated house price within India.
+    Machine Learning Predictions: Utilizes a machine learning model to predict house prices.
+    User-Friendly Interface: Offers an intuitive web interface for users to input property details.
+    Amenities Support: Supports various amenities and features for enhanced prediction accuracy.
 
-## Features
+Requirements
 
-- Predicts house prices using a machine learning model.
-- User-friendly web interface to input property details.
-- Supports various amenities and features for accurate predictions.
+    Python 3.x: The project is developed in Python 3.x.
+    Flask Web Framework: Utilizes Flask for building the web application.
+    Machine Learning Libraries: Includes libraries such as scikit-learn for machine learning functionalities.
+    Web Development Technologies: Requires HTML, CSS, and JavaScript for the development of the web interface.
+    
+Installation
 
-## Requirements
-
-- Python 3.x
-- Flask web framework
-- Machine learning libraries (e.g., scikit-learn)
-- HTML, CSS, and JavaScript (for the web interface)
-## Installation 
-
-To run this project follow the steps:
+To run this project, follow these steps:
 
 1. Clone the Directory
 ```bash
@@ -40,8 +38,12 @@ To run this project follow the steps:
 ## Usage
 Run the Flask application
 ```bash
-   python PROJECT.py
+   python Project_File_To_Run.py
+```
+OR 
+```bash
+   python3 './Project_File_To_Run.py'
 ```
 Open your web browser and go to http://localhost:5000 to access the application.
 
-Fill in the property details and click the "Predict" button to get the estimated house    price.
+Fill in the property details and click the "Predict" button to get the estimated house price.
