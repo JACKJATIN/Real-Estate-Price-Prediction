@@ -52,7 +52,7 @@ To run this project follow the steps:
 
 6. Copy the API Key: Once you've created the API key, copy it. You'll need to replace "YOUR_GOOGLE_MAPS_API_KEY" with your actual API key in the project.
 
-## Integrating the API Key into the Project
+## **Important: Google Maps API Key Integration**
 
 1.Replace the API Key in the Project: After obtaining your Google Maps API key, navigate to the project directory where you've cloned the repository.
 
@@ -60,7 +60,7 @@ To run this project follow the steps:
 
 3.Replace Placeholder with Your API Key: Replace "YOUR_GOOGLE_MAPS_API_KEY" with the API key you obtained in step 6.
 
-4. Save Changes: Save the changes to the file.
+4.Save Changes: Save the changes to the file.
 
 ## Usage
 Run the Flask application
