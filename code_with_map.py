@@ -1,3 +1,5 @@
+#key='insert the key'
+import os
 import numpy as np
 import pandas as pd
 from sklearn.impute import SimpleImputer
@@ -8,6 +10,8 @@ from sklearn.neighbors import KNeighborsRegressor
 from sklearn.linear_model import HuberRegressor  # Import Huber Regressor
 from catboost import CatBoostRegressor
 from flask import Flask, render_template, request, url_for
+import googlemaps
+gmaps = googlemaps.Client(key='key1')
 
 # Function to read data from CSV
 def wrangle(csv_file_path):
@@ -162,10 +166,22 @@ def predict():
     df = pd.DataFrame(data, index=[0])
     predictions = make_prediction(df)
 
+    # Calculate average predicted price
     avg_predicted_price = round(sum(predictions.values()) / len(predictions), 2)
 
-    return render_template('result.html', predictions=predictions, avg_predicted_price=avg_predicted_price)
+    # Geocode the predicted location to get its coordinates
+    geocoder = googlemaps.Client(key='key1')  # Replace 'YOUR_API_KEY' with your actual API key
+    geocode_result = geocoder.geocode(data['Location'])
 
+    if geocode_result:
+        latitude = geocode_result[0]['geometry']['location']['lat']
+        longitude = geocode_result[0]['geometry']['location']['lng']
+        
+        # Render result.html with predictions and maps_html_content
+        return render_template('result.html', latitude=latitude, longitude=longitude , location=data['Location'],predictions=predictions,avg_predicted_price=avg_predicted_price)
 
+    else:
+        return "Location not found"
+        
 if __name__ == '__main__':
     app.run(debug=True)

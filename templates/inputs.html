@@ -719,15 +719,15 @@
       <div id="locationContainer">
         <label for="location">Location:</label>
         <div id="locationBox">
-          <select id="location" name="location" required>
-            {% for loc in locations %}
-            <option value="{{ loc }}">{{ loc }}</option>
-            {% endfor %}
-          </select>
+            <select id="location" name="location" required>
+                {% for loc in locations %}
+                <option value="{{ loc }}">{{ loc }}</option>
+                {% endfor %}
+            </select>
         </div>
-      </div>
-      <!-- Submit Button -->
-      <div class="button-container" style="display: flex; align-items: center;">
+    </div>
+    <!-- Submit Button -->
+    <div class="button-container" style="display: flex; align-items: center;">
         <div class="back-container">
             <a href="{{ url_for('home') }}">Home</a>
         </div>
@@ -735,9 +735,6 @@
             <input type="submit" value="Predict" />
         </div>
     </div>
-    
-    
-    
-    </form>
+</form>
   </body>
 </html>
