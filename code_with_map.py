@@ -19,7 +19,7 @@ def wrangle(csv_file_path):
     return df
 
 # Load the data
-file_path = 'G:\PYTHON\BTP PHASE 2\Real-Estate-Price-Prediction phase 2\Delhi.csv'  # Use raw string literal or forward slashes
+file_path = 'Delhi.csv'  # Use raw string literal or forward slashes
 processed_data = wrangle(file_path)
 
 # Define the target variable
