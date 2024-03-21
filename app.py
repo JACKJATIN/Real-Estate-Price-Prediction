@@ -63,7 +63,7 @@ app = Flask(__name__)
 models = {
     "Decision Tree": DecisionTreeRegressor().fit(X_train_imputed, y_train),
     "Random Forest": RandomForestRegressor().fit(X_train_imputed, y_train),
-    "CatBoost": CatBoostRegressor(iterations=500, learning_rate=0.05, depth=10, loss_function='MAE', verbose=0).fit(X_train_imputed, y_train),
+    #"CatBoost": CatBoostRegressor(iterations=500, learning_rate=0.05, depth=10, loss_function='MAE', verbose=0).fit(X_train_imputed, y_train),
     "KNN": KNeighborsRegressor(n_neighbors=6).fit(X_train_imputed, y_train),
     "Huber Regressor": HuberRegressor().fit(X_train_imputed, y_train)  # Train Huber Regressor
 }
