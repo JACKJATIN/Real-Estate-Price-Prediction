@@ -1,17 +1,15 @@
 #key='YOUR_GOOGLE_MAPS_API_KEY'
 import os
+import gunicorn
 import numpy as np
 import pandas as pd
 from sklearn.impute import SimpleImputer
-from sklearn.model_selection import GridSearchCV
-from sklearn.tree import DecisionTreeRegressor
-from sklearn.ensemble import RandomForestRegressor
-from sklearn.neighbors import KNeighborsRegressor
-from sklearn.linear_model import HuberRegressor  # Import Huber Regressor
-from catboost import CatBoostRegressor
-from flask import Flask, render_template, request, url_for
+from flask import Flask, render_template, request, url_for ,redirect
+import pickle
 import googlemaps
+from googlemaps import Client
 gmaps = googlemaps.Client(key=os.getenv('GOOGLE_MAPS_API_KEY'))
+
 
 # Function to read data from CSV
 def wrangle(csv_file_path):
@@ -60,13 +58,15 @@ X_train_imputed = imputer.fit_transform(X_train)
 app = Flask(__name__)
 
 # Train the models
-models = {
-    "Decision Tree": DecisionTreeRegressor().fit(X_train_imputed, y_train),
-    "Random Forest": RandomForestRegressor().fit(X_train_imputed, y_train),
-    "CatBoost": CatBoostRegressor(iterations=500, learning_rate=0.05, depth=10, loss_function='MAE', verbose=0).fit(X_train_imputed, y_train),
-    "KNN": KNeighborsRegressor(n_neighbors=6).fit(X_train_imputed, y_train),
-    "Huber Regressor": HuberRegressor().fit(X_train_imputed, y_train)  # Train Huber Regressor
-}
+# Train the models
+models = {}
+models_folder = 'models'  # Folder containing the pre-trained model files
+
+for filename in os.listdir(models_folder):
+    if filename.endswith('.pkl'):
+        model_name = os.path.splitext(filename)[0]
+        with open(os.path.join(models_folder, filename), 'rb') as file:
+            models[model_name] = pickle.load(file)
 
 def make_prediction(data):
     # One-hot encode the 'Location' feature
@@ -89,12 +89,14 @@ def make_prediction(data):
 @app.route('/')
 def home():
     banner_image_url = url_for('static', filename='GOV_banner.png')
-    return render_template('home.html', banner_image_url=banner_image_url)
+    favicon_ico=url_for('static', filename='favicon.ico')
+    return render_template('home.html', banner_image_url=banner_image_url,favicon_ico=favicon_ico)
 
 @app.route('/inputs')
 def inputs():
     locations = processed_data['Location'].unique().tolist()
-    return render_template('inputs.html', locations=locations)
+    favicon_ico=url_for('static', filename='favicon.ico')
+    return render_template('inputs.html', locations=locations,favicon_ico=favicon_ico)
 
 @app.route('/aboutus')
 def about():
@@ -117,7 +119,10 @@ def about():
         },
         'bg-image':url_for('static' , filename='10974.jpg')
     }
-    return render_template('aboutus.html', team_members=team_members)
+    
+    favicon_ico=url_for('static', filename='favicon.ico')
+    
+    return render_template('aboutus.html', team_members=team_members,favicon_ico=favicon_ico)
 # Route to handle form submission and display prediction
 @app.route('/predict', methods=['POST'])
 def predict():
@@ -172,16 +177,17 @@ def predict():
     # Geocode the predicted location to get its coordinates
     geocoder = googlemaps.Client(key=os.getenv('GOOGLE_MAPS_API_KEY'))  # Replace 'YOUR_GOOGLE_MAPS_API_KEY' with your actual API key
     geocode_result = geocoder.geocode(data['Location'])
-
+    
     if geocode_result:
         latitude = geocode_result[0]['geometry']['location']['lat']
         longitude = geocode_result[0]['geometry']['location']['lng']
-        
+        key=os.getenv('GOOGLE_MAPS_API_KEY')
         # Render result.html with predictions and maps_html_content
-        return render_template('result.html', latitude=latitude, longitude=longitude , location=data['Location'],predictions=predictions,avg_predicted_price=avg_predicted_price,key=os.getenv('GOOGLE_MAPS_API_KEY'))
+        favicon_ico=url_for('static', filename='favicon.ico')
+        bg_image_=url_for('static' , filename='bg.jpg')
+        return render_template('result.html', favicon_ico=favicon_ico,latitude=latitude, longitude=longitude , location=data['Location'],predictions=predictions,avg_predicted_price=avg_predicted_price,key=key,bg_image_=bg_image_)
 
     else:
-        return "Location not found"
-        
+        redirect('/inputs')
 if __name__ == '__main__':
     app.run(debug=False)
