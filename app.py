@@ -176,9 +176,9 @@ def predict():
     if geocode_result:
         latitude = geocode_result[0]['geometry']['location']['lat']
         longitude = geocode_result[0]['geometry']['location']['lng']
-        
+        key=os.getenv('GOOGLE_MAPS_API_KEY')
         # Render result.html with predictions and maps_html_content
-        return render_template('result.html', latitude=latitude, longitude=longitude , location=data['Location'],predictions=predictions,avg_predicted_price=avg_predicted_price,key=os.getenv('GOOGLE_MAPS_API_KEY'))
+        return render_template('result.html', latitude=latitude, longitude=longitude , location=data['Location'],predictions=predictions,avg_predicted_price=avg_predicted_price,key=key)
 
     else:
         return "Location not found"
