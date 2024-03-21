@@ -11,7 +11,7 @@ from sklearn.linear_model import HuberRegressor  # Import Huber Regressor
 from catboost import CatBoostRegressor
 from flask import Flask, render_template, request, url_for
 import googlemaps
-gmaps = googlemaps.Client(key='YOUR_GOOGLE_MAPS_API_KEY')
+gmaps = googlemaps.Client(key=os.getenv('GOOGLE_MAPS_API_KEY'))
 
 # Function to read data from CSV
 def wrangle(csv_file_path):
@@ -170,7 +170,7 @@ def predict():
     avg_predicted_price = round(sum(predictions.values()) / len(predictions), 2)
 
     # Geocode the predicted location to get its coordinates
-    geocoder = googlemaps.Client(key='YOUR_GOOGLE_MAPS_API_KEY')  # Replace 'YOUR_GOOGLE_MAPS_API_KEY' with your actual API key
+    geocoder = googlemaps.Client(key=os.getenv('GOOGLE_MAPS_API_KEY'))  # Replace 'YOUR_GOOGLE_MAPS_API_KEY' with your actual API key
     geocode_result = geocoder.geocode(data['Location'])
 
     if geocode_result:
@@ -184,4 +184,4 @@ def predict():
         return "Location not found"
         
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=False)
