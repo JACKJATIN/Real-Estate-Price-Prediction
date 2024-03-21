@@ -1,6 +1,6 @@
 ﻿blinker==1.7.0
 branca==0.7.1
-catboost==1.2.3
+# catboost==1.2.3
 certifi==2024.2.2
 charset-normalizer==3.3.2
 click==8.1.7
