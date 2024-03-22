@@ -1,6 +1,8 @@
 
 # Real Estate Price Estimation 
 
+Live Link 
+[Click Here](https://realestate-price-estimator.onrender.com/)
 A brief description of what this project does and who it's for
 
 This project is a web application for predicting house prices based on various features. Users can input details such as area, number of bedrooms, and amenities, and the application will provide an estimated house price within India.
@@ -63,9 +65,14 @@ To run this project follow the steps:
 4.Save Changes: Save the changes to the file.
 
 ## Usage
+Pre-Train or Retrain data initially 
+```bash
+   python pretrain_and_save.py
+```
+
 Run the Flask application
 ```bash
-   python code_with_map.py.py
+   python app.py
 ```
 Open your web browser and go to http://localhost:5000 to access the application.
 
